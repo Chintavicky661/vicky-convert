@@ -33,3 +33,44 @@ follow(a[k][0]);
 else if(islower(a[k][2])) f[m++] = a[k][2];
 else first(a[k][2]);
 } } }
+
+
+
+
+#include<stdio.h> #include<string.h> char stack[20]; int top = -1; void push(char item) { if (top >= 19) { printf("STACK OVERFLOW\n"); return;
+} stack[++top] = item;
+} char pop() {
+if (top <= -1) {
+printf("STACK UNDERFLOW\n");
+return '\0';
+}
+char c = stack[top--];
+printf("Popped element: %c\n", c);
+return c;
+}
+char TOS() {
+if (top <= -1) {
+printf("STACK EMPTY\n");
+return '\0';
+}
+return stack[top];
+}
+int convert(char item) {
+switch (item) {
+case 'i': return 0;
+case '+': return 1;
+case '*': return 2;
+case '$': return 3;
+default: return -1; // Invalid character
+}
+}
+int main() {
+char pt[4][4] = {
+{'-', '>', '>', '>'}, {'<', '>', '<', '>'}, {'<', '>', '>', '>'}, {'<', '<', '<', '1'}
+}; char input[20]; int lkh = 0; printf("Enter input with $ at the end: "); scanf("%s", input); push('$'); while (lkh <= strlen(input)) { if (TOS() == '$' && input[lkh] == '$') { printf("SUCCESS\n"); return 1;
+} else if (convert(TOS()) != -1 && convert(input[lkh]) != -1 &&
+pt[convert(TOS())][convert(input[lkh])] == '<') { push(input[lkh]); printf("Push: %c\n", input[lkh]); lkh++;
+} else { pop();
+} }
+printf("FAILURE\n"); return 0;
+}
